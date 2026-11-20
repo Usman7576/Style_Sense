@@ -40,4 +40,6 @@ select = ["E", "F", "I", "B", "UP", "NPY"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# keep pytest temp files on the project drive (not the system drive)
+addopts = "--basetemp=.cache/pytest-tmp -p no:cacheprovider"
 markers = ["needs_model: requires the MediaPipe face_landmarker.task model file"]
