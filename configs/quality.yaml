@@ -1,0 +1,11 @@
+# Photo quality thresholds (FR-2). Starting values - calibrate on the 50-image hand-labelled sheet (Week 1, S3)
+# with scripts/check_photo.py, then update here.
+blur_min_laplacian_var: 45.0   # Laplacian variance on the face crop at 256 px width, contrast-normalised (std 50).
+                               # Reference (NASA portrait): sharp 150, Gaussian sigma 1 -> 58, sigma 2 -> 32.
+brightness_min: 60.0           # mean V (HSV, 0-255) on the face crop
+brightness_max: 235.0
+min_face_px: 160               # face bounding-box height in pixels (mesh forehead-top to chin)
+min_face_frac: 0.20            # face height / image height
+max_yaw_deg: 20.0
+max_pitch_deg: 22.0            # MediaPipe reports ~10-15 deg pitch on near-frontal faces; calibrate in W1 S3
+max_roll_deg: 15.0

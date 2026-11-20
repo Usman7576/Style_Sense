@@ -1,0 +1,32 @@
+# Environments and caches (kept on E: drive, never committed)
+.venv/
+.cache/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Data, weights and outputs - never commit (licences + privacy)
+data/
+models/
+outputs/
+wandb/
+runs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.task
+*.parquet
+
+# Secrets
+.env
+kaggle.json
+*.token
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

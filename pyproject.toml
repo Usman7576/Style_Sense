@@ -1,0 +1,38 @@
+[project]
+name = "stylesense"
+version = "0.0.1"
+description = "Fairness-aware beard and hairstyle recommendation with identity-preserving virtual try-on"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = { text = "MIT (code only; see README for data and model licences)" }
+dependencies = [
+    "numpy>=1.26",
+    "opencv-python-headless>=4.9",
+    "mediapipe>=0.10.14",
+    "pyyaml>=6.0",
+    "pandas>=2.1",
+    "pyarrow>=15.0",
+    "pillow>=10.0",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6", "pre-commit>=3.7", "scikit-image>=0.22"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["stylesense*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "NPY"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["needs_model: requires the MediaPipe face_landmarker.task model file"]

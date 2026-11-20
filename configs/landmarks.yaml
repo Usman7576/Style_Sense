@@ -1,0 +1,6 @@
+# MediaPipe Face Landmarker settings (FR-3)
+model_path: models/face_landmarker.task
+model_url: https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task
+num_faces: 2                 # detect up to 2 so photos with several people can be rejected
+min_detection_confidence: 0.5
+aligned_size: 512            # canonical aligned crop (leaves room for hair above and beard below)
