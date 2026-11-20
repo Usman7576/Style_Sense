@@ -26,7 +26,8 @@ across skin-tone groups (Monk Skin Tone scale), with a focus on South Asian and 
 ## Setup (Windows, no Docker)
 
 Everything lives on the project drive: the virtual environment (`.venv/`), caches (`.cache/`), data (`data/`) and
-model files (`models/`). Python 3.10-3.12 is required (MediaPipe and PyTorch do not support newer versions yet).
+model files (`models/`). Python 3.10+ is supported (CI tests 3.12 and 3.13; Kaggle currently runs 3.13). Locally
+use the newest Python that PyTorch publishes wheels for.
 
 ```powershell
 uv venv .venv --python 3.12

@@ -7,6 +7,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]   # 3.13 matches the current Kaggle image
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
@@ -14,7 +18,7 @@ jobs:
         run: sudo apt-get update -q && sudo apt-get install -y -q libgl1 libglib2.0-0 libegl1 libgles2
       - name: Install
         run: |
-          uv venv --python 3.12
+          uv venv --python ${{ matrix.python }}
           uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
           uv pip install -e ".[dev,train]"
           uv pip install pytest-github-actions-annotate-failures

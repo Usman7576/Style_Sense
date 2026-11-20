@@ -3,7 +3,7 @@ name = "stylesense"
 version = "0.0.1"
 description = "Fairness-aware beard and hairstyle recommendation with identity-preserving virtual try-on"
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.10"
 license = { text = "MIT (code only; see README for data and model licences)" }
 dependencies = [
     "numpy>=1.26",
