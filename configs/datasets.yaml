@@ -1,0 +1,38 @@
+# Dataset sources. Everything downloads under data/raw/ on the project drive (git-ignored).
+# "kaggle" entries download automatically with scripts/download_datasets.py once a Kaggle API token is set up.
+# "manual" entries need a browser download (licence acceptance / Google Drive); follow the notes.
+
+face_shape:
+  source: kaggle
+  slug: niten19/face-shape-dataset
+  dest: data/raw/face_shape
+  licence: see Kaggle page
+  notes: 5,000 female celebrity images, 5 classes (heart, oblong, oval, round, square).
+
+celebamask_hq:
+  source: manual
+  url: https://github.com/switchablenorms/CelebAMask-HQ
+  dest: data/raw/celebamask_hq
+  licence: non-commercial research only, no redistribution
+  notes: Download CelebAMask-HQ.zip via the links in the official README and unzip into dest.
+
+figaro1k:
+  source: manual
+  url: http://projects.i-ctm.eu/it/progetto/figaro-1k
+  dest: data/raw/figaro1k
+  licence: research use
+  notes: 1,050 hair images in 7 classes with hair masks.
+
+fairface:
+  source: manual
+  url: https://github.com/dchen236/FairFace
+  dest: data/raw/fairface
+  licence: CC BY 4.0
+  notes: Download the padding=0.25 images and the label CSVs from the official README.
+
+ffhq_subset:
+  source: manual
+  url: https://github.com/NVlabs/ffhq-dataset
+  dest: data/raw/ffhq
+  licence: CC BY-NC-SA 4.0
+  notes: Only ~5,000 images are needed (KID reference set); download a subset of the 1024px images.
