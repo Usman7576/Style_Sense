@@ -1,4 +1,4 @@
-﻿# ruff: noqa: E501  (notebook cell text is kept verbatim)
+# ruff: noqa: E501  (notebook cell text is kept verbatim)
 """Generate notebooks/02_train_classifiers_kaggle.ipynb (kept as code so the notebook stays reviewable in git)."""
 
 from __future__ import annotations
