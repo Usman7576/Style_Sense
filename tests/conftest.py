@@ -1,7 +1,16 @@
+from pathlib import Path
+
 import numpy as np
 import pytest
 
 from stylesense.utils.config import load_config, repo_path
+
+
+def pytest_configure(config):
+    """--basetemp (set in pyproject to keep temp files on the project drive) needs its parent folder to exist."""
+    basetemp = config.option.basetemp
+    if basetemp:
+        Path(basetemp).resolve().parent.mkdir(parents=True, exist_ok=True)
 
 
 def _model_available() -> bool:
