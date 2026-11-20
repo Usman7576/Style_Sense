@@ -1,0 +1,23 @@
+# Hair-attribute classifier (WBS 4.2, recipe PMP 10.3). Input: the full 512 aligned crop (hair + beard visible).
+heads:
+  curl: [straight, wavy, curly, coily]
+  density: [normal, thinning]
+  hairline: [normal, receding, bald]
+  beard: [none, patchy, full]
+image_size: 224
+
+model:
+  backbone: mobilenetv3_large_100
+  pretrained: true
+  dropout: 0.2
+
+train:
+  seed: 42
+  batch_size: 64
+  epochs: 15
+  lr: 3.0e-4
+  weight_decay: 0.02
+  label_smoothing: 0.05
+  early_stop_patience: 4
+  num_workers: 2
+  amp: true
