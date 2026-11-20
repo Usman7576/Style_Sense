@@ -17,6 +17,7 @@ jobs:
           uv venv --python 3.12
           uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
           uv pip install -e ".[dev,train]"
+          uv pip install pytest-github-actions-annotate-failures
       - name: Versions
         run: uv run python -c "import cv2, mediapipe, numpy, torch; print(cv2.__version__, mediapipe.__version__, numpy.__version__, torch.__version__)"
       - name: Lint
