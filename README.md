@@ -6,7 +6,8 @@ Upload one front-facing photo; StyleSense analyses face shape and hair character
 hairstyles you can realistically grow, and renders them on your own photo. Every model is evaluated separately
 across skin-tone groups (Monk Skin Tone scale), with a focus on South Asian and darker-skinned faces.
 
-> **Status:** Week 1 of 10 - foundations (photo quality checks, landmarks, alignment, geometric features).
+> **Status:** Week 2 of 10 - classifier code, baselines and training pipeline ready; training runs on Kaggle next
+> ([guide](docs/kaggle_guide.md)).
 > Project documents: [`docs/`](docs/) (Project Description v2.0, Project Management Plan v2.0).
 
 ## Pipeline
@@ -15,8 +16,8 @@ across skin-tone groups (Monk Skin Tone scale), with a focus on South Asian and 
 |---|---|---|
 | Photo quality check (blur, light, face size, head pose, multiple faces) | `stylesense/quality.py` | done |
 | 478 landmarks, head pose, 512 px alignment, face-shape geometry | `stylesense/landmarks.py` | done |
-| Face-shape classifier | `stylesense/face_shape.py` | Week 2 |
-| Hair-attribute classifier | `stylesense/hair_type.py` | Week 2-3 |
+| Face-shape classifier (+ diamond rule, baselines) | `stylesense/face_shape.py` | code ready, training pending |
+| Hair-attribute classifier | `stylesense/hair_type.py` | code ready, training pending |
 | Hair / beard / skin segmentation | `stylesense/segment.py` | Week 3 |
 | Try-on (SD 1.5 inpainting + LoRA + ControlNet) | `stylesense/tryon.py` | Week 4-5 |
 | Recommender (rules + learned ranker) | `stylesense/recommend.py` | Week 6-8 |
