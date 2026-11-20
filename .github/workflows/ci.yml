@@ -10,13 +10,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
+      - name: System libraries for OpenCV / MediaPipe
+        run: sudo apt-get update -q && sudo apt-get install -y -q libgl1 libglib2.0-0 libegl1 libgles2
       - name: Install
         run: |
           uv venv --python 3.12
-          uv pip install -e ".[dev]"
+          uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          uv pip install -e ".[dev,train]"
+      - name: Versions
+        run: uv run python -c "import cv2, mediapipe, numpy, torch; print(cv2.__version__, mediapipe.__version__, numpy.__version__, torch.__version__)"
       - name: Lint
         run: uv run ruff check . && uv run ruff format --check .
       - name: Download models
         run: uv run python scripts/download_models.py
       - name: Test
-        run: uv run pytest -q
+        run: uv run pytest -q -rs
