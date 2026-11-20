@@ -7,12 +7,14 @@ __pycache__/
 .ruff_cache/
 *.egg-info/
 
-# Data, weights and outputs - never commit (licences + privacy)
-data/
-models/
-outputs/
-wandb/
-runs/
+# Data, weights and outputs - never commit (licences + privacy).
+# Anchored to the repo root with a leading slash so code packages such as stylesense/data/ and
+# stylesense/models/ are NOT ignored.
+/data/
+/models/
+/outputs/
+/wandb/
+/runs/
 *.pt
 *.pth
 *.ckpt
