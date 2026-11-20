@@ -1,7 +1,8 @@
-﻿"""Build a leakage-safe train/val/test manifest for a labelled image folder.
+"""Build a leakage-safe train/val/test manifest for a labelled image folder.
 
 Labels come from each image's parent folder name (case-insensitive match against --classes). Near-duplicate
-images are grouped (dHash) so they never cross splits. The manifest is a CSV saved under splits/ and committed (file names only, no images), so splits are fixed and reproducible.
+images are grouped (dHash) so they never cross splits. The manifest is a CSV saved under splits/ and committed
+(file names only, no images), so splits are fixed and reproducible.
 
 Example (Kaggle face-shape dataset):
     python scripts/make_splits.py data/raw/face_shape --classes heart,oblong,oval,round,square \

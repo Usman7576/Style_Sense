@@ -1,0 +1,32 @@
+# Face-shape classifier (WBS 4.1, recipe PMP 10.1)
+classes: [heart, oblong, oval, round, square]   # learned classes; "diamond" is added by the landmark rule
+
+# Region of the 512x512 aligned crop used for classification (fractions; square so no distortion).
+crop_box: [0.12, 0.16, 0.88, 0.92]              # x0, y0, x1, y1
+image_size: 224
+
+# Diamond rule: cheekbones clearly wider than both forehead and jaw. Soft probability via a logistic on the margin.
+# Starting values - calibrate on labelled data (W2 S1).
+diamond:
+  max_forehead_to_cheek: 0.80
+  max_jaw_to_cheek: 0.78
+  softness: 0.02
+
+model:
+  backbone: efficientnet_b0
+  pretrained: true
+  dropout: 0.3
+  geom_hidden: 32
+
+train:
+  seed: 42
+  batch_size: 32
+  head_epochs: 5          # stage 1: backbone frozen
+  head_lr: 1.0e-3
+  epochs: 25              # stage 2: full fine-tune
+  lr: 1.0e-4
+  weight_decay: 0.05
+  label_smoothing: 0.1
+  early_stop_patience: 6
+  num_workers: 2
+  amp: true
