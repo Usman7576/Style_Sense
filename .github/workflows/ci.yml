@@ -25,4 +25,11 @@ jobs:
       - name: Download models
         run: uv run python scripts/download_models.py
       - name: Test
-        run: uv run pytest -q -rs
+        shell: bash
+        run: |
+          set -o pipefail
+          uv run pytest -q -rfEs 2>&1 | tee pytest.log || {
+            # surface the tail of the log as a public annotation (job logs need sign-in to read)
+            tail -n 60 pytest.log | sed ':a;N;$!ba;s/%/%25/g;s/\r//g;s/\n/%0A/g' | sed 's/^/::error title=pytest output::/'
+            exit 1
+          }
