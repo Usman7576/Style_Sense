@@ -16,7 +16,7 @@ across skin-tone groups (Monk Skin Tone scale), with a focus on South Asian and 
 |---|---|---|
 | Photo quality check (blur, light, face size, head pose, multiple faces) | `stylesense/quality.py` | done |
 | 478 landmarks, head pose, 512 px alignment, face-shape geometry | `stylesense/landmarks.py` | done |
-| Face-shape classifier (+ diamond rule, baselines) | `stylesense/face_shape.py` | code ready, training pending |
+| Face-shape classifier (+ diamond rule, baselines) | `stylesense/face_shape.py` | **v0.1 trained: test acc 83.8%, macro-F1 0.836** ([card](model_cards/face_shape_v0.1.md)) |
 | Hair-attribute classifier | `stylesense/hair_type.py` | code ready, training pending |
 | Hair / beard / skin segmentation | `stylesense/segment.py` | Week 3 |
 | Try-on (SD 1.5 inpainting + LoRA + ControlNet) | `stylesense/tryon.py` | Week 4-5 |

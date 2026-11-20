@@ -25,8 +25,14 @@
 - `.gitignore` rules for `data/` and `models/` also ignored `stylesense/data` and `stylesense/models`; now anchored
   to the repo root.
 
-### Not done yet (needs datasets + Kaggle GPU)
-- Actual training runs, metrics and Gate G1 review; committed split CSVs.
+### Results
+- Face-shape v0.1 trained on Kaggle (T4, ~20 min): test accuracy 0.838, macro-F1 0.836 [95% CI 0.809-0.861];
+  best landmark-only baseline 0.597 val macro-F1. Target (>= 80% accuracy) met; Gate G1 passed.
+  See `model_cards/face_shape_v0.1.md`.
+
+### Not done yet
+- Hair-attribute training (needs Figaro-1k / CelebAMask-HQ); commit `splits/face_shape.csv`; review square-class
+  split balance; fairness evaluation (Week 6).
 
 ## Week 1
 
