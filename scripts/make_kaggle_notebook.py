@@ -33,11 +33,14 @@ import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get
     (
         "code",
         """import glob, os
-RAW = "/kaggle/input/face-shape-dataset"          # adjust if your attached dataset path differs
+# Find the attached face-shape dataset automatically: the common parent of every "Heart" class folder.
+heart_dirs = [d for d in glob.glob("/kaggle/input/**/", recursive=True) if os.path.basename(d.rstrip("/")).lower() == "heart"]
+assert heart_dirs, "Face-shape dataset not found - use Add Data (right panel) and add niten19/face-shape-dataset"
+RAW = os.path.commonpath([os.path.dirname(d.rstrip("/")) for d in heart_dirs])
 W = "/kaggle/working"
-print(glob.glob(RAW + "/*"))
-!python scripts/make_splits.py {RAW} --classes heart,oblong,oval,round,square --out splits/face_shape.csv
-!python scripts/extract_features.py {RAW} --out {W}/features/face_shape.parquet --crops {W}/aligned/face_shape""",
+print("dataset folder:", RAW)
+!python scripts/make_splits.py "{RAW}" --classes heart,oblong,oval,round,square --out splits/face_shape.csv
+!python scripts/extract_features.py "{RAW}" --out {W}/features/face_shape.parquet --crops {W}/aligned/face_shape""",
     ),
     ("md", "## 2. Baselines on landmark ratios (the numbers the CNN must beat)"),
     (
