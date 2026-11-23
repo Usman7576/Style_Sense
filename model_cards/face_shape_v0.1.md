@@ -14,9 +14,9 @@
 
 | Model | Val macro-F1 | Test accuracy | Test macro-F1 [95% CI] |
 |---|---|---|---|
-| Rule classifier (landmark ratios) | 0.344 | - | - |
-| Gradient boosting (landmark ratios) | 0.583 | - | - |
-| Logistic regression (landmark ratios) | 0.597 | - | - |
+| Rule classifier (landmark ratios) | 0.344 | - | 0.344 |
+| Gradient boosting (landmark ratios) | 0.583 | - | 0.575 |
+| Logistic regression (landmark ratios) | 0.597 | - | 0.599 |
 | **EfficientNet-B0 + geometry (this model)** | **0.879** | **0.838** | **0.836 [0.809, 0.861]** |
 
 Validation was used to choose the best epoch, so the test numbers are the ones to report.
@@ -45,13 +45,18 @@ Target (PMP O1): accuracy >= 80%. **Met.** Gate G1 (macro-F1 >= 0.70): **passed.
   darker-skinned faces is **not yet measured**. The fairness set (MST-annotated, consented) is required before any
   claim about those groups (PMP Week 6).
 - No per-skin-tone breakdown yet: the dataset has no Monk Skin Tone labels.
-- Face-shape labels are subjective and contain duplicates/noise; the split groups near-duplicates (118 clusters),
-  which left the square class slightly under-represented in train (616 vs ~720 for other classes) - to review.
+- Face-shape labels are subjective and contain duplicates/noise: some identical photos appear under different
+  shape labels in the dataset.
+- **Split issue found after training:** the 64-bit near-duplicate hash chained 412 unrelated photos into one group,
+  leaving the square class under-represented in train (616 vs ~720 for other classes). There is no train/test
+  leakage, so these numbers are valid, but the split is unbalanced. Fixed in commit `ab7a902` (256-bit hash +
+  group-size cap); v0.2 will be retrained and evaluated on the corrected split.
 
 ## Ethics and licences
 - Kaggle dataset terms apply; weights released for research use only.
 - Output is a style aid, not a judgement about a person.
 
 ## Artefacts
-Kaggle run outputs: `runs/face_shape/best.pt`, `results.json`, `metrics.csv`; baselines in
-`runs/face_shape_baselines.json`. Split manifest: `splits/face_shape.csv` (to be committed).
+Kaggle run outputs (kept locally in `outputs/week2/`, not in git): `runs/face_shape/best.pt` (17 MB),
+`results.json`, `metrics.csv`; baselines in `runs/face_shape_baselines.json`; split manifest `face_shape.csv`
+(old 64-bit split; superseded by the corrected split for v0.2).
