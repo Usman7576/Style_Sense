@@ -2,7 +2,14 @@ import cv2
 import numpy as np
 import pandas as pd
 
-from stylesense.data.splits import build_manifest, dhash, near_duplicate_groups, stratified_group_split
+from stylesense.data.splits import (
+    _to_words,
+    build_manifest,
+    dhash,
+    hamming_to_rest,
+    near_duplicate_groups,
+    stratified_group_split,
+)
 
 
 def _img(seed: int) -> np.ndarray:
@@ -10,19 +17,46 @@ def _img(seed: int) -> np.ndarray:
     return cv2.resize(rng.integers(0, 255, (16, 16, 3), dtype=np.uint8), (128, 128), interpolation=cv2.INTER_CUBIC)
 
 
-def test_dhash_stable_under_resize_and_brightness():
+def _dist(a: str, b: str) -> int:
+    return int(hamming_to_rest(_to_words([a, b]), 0)[0])
+
+
+def test_dhash_is_256_bits_and_stable_under_resize_and_brightness():
     a = _img(0)
-    b = cv2.resize(a, (300, 300))
-    c = cv2.convertScaleAbs(a, alpha=1.0, beta=20)
-    assert bin(dhash(a) ^ dhash(b)).count("1") <= 6
-    assert bin(dhash(a) ^ dhash(c)).count("1") <= 6
-    assert bin(dhash(a) ^ dhash(_img(1))).count("1") > 12
+    assert len(dhash(a)) == 64  # 256 bits as hex
+    assert _dist(dhash(a), dhash(cv2.resize(a, (300, 300)))) <= 10
+    assert _dist(dhash(a), dhash(cv2.convertScaleAbs(a, alpha=1.0, beta=20))) <= 10
+    assert _dist(dhash(a), dhash(_img(1))) > 60
 
 
 def test_near_duplicate_groups():
     hs = [dhash(_img(0)), dhash(cv2.resize(_img(0), (64, 64))), dhash(_img(1)), dhash(_img(2))]
     g = near_duplicate_groups(hs)
     assert g[0] == g[1] and len({g[0], g[2], g[3]}) == 3
+
+
+def _hex(bits: np.ndarray) -> str:
+    return np.packbits(bits).tobytes().hex()
+
+
+def test_transitive_chain_is_broken_but_exact_copies_stay_together():
+    rng = np.random.default_rng(0)
+    bits = rng.integers(0, 2, 256).astype(bool)
+    chain = []
+    for _ in range(40):  # each step flips 15 bits: linked to its neighbour (<= 20) but far from distant items
+        chain.append(_hex(bits))
+        bits = bits.copy()
+        bits[rng.choice(256, 15, replace=False)] ^= True
+    copies = [_hex(rng.integers(0, 2, 256).astype(bool))] * 25  # 25 identical hashes (true copies)
+    g = near_duplicate_groups(chain + copies, max_distance=20, max_group_size=20)
+    chain_sizes = pd.Series(g[:40]).value_counts()
+    assert chain_sizes.max() <= 20  # the 40-long chain no longer forms one giant group
+    assert len(set(g[40:])) == 1  # exact copies remain one group even above the cap
+
+
+def test_legacy_64bit_int_hashes_supported():
+    g = near_duplicate_groups([0, 1, 2**64 - 1], max_distance=2)  # 0 vs 1: 1 bit; vs all-ones: 64 bits
+    assert g[0] == g[1] != g[2]
 
 
 def test_stratified_group_split_keeps_groups_together_and_balances():
